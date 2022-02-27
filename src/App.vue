@@ -1,29 +1,21 @@
 <template>
-<div>
+<div id="app">
   <router-view></router-view>
 </div>
 </template>
 
 <style lang="scss">
+@import "./assets/styles/reset.scss";
+@import "./assets/styles/helper.scss";
 
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+  font-family: $font-kai;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
+  color: #333;
+  line-height: 1.5;
 }
 
-#nav {
-  padding: 30px;
 
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
-    }
-  }
-}
 </style>

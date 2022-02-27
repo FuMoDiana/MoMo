@@ -1,11 +1,9 @@
 <template>
    <div class="nav-buttom">
-    <router-link to="/labels" class="item">
-    <Icon name = 'labels'></Icon>
- 
-    </router-link>
-    <router-link to="/money" class="item"><Icon name = 'money'></Icon></router-link>
-    <router-link to="/statistics" class="item"><Icon name = 'charts'></Icon></router-link>
+    <router-link to="/labels" class="item" active-class="selected">
+    <Icon name = 'labels'></Icon></router-link>
+    <router-link to="/money" class="item" active-class="selected"><Icon name = 'money'></Icon></router-link>
+    <router-link to="/statistics" class="item" active-class="selected"><Icon name = 'charts'></Icon></router-link>
   </div>
 </template>
 
@@ -25,7 +23,14 @@
   justify-content: space-around;
   > .item{
     padding-top: 5px;
-  }
+    color: aliceblue;
+  };
+  > .item.selected{
+    > .icon{
+      width: 2.5em;
+      height: 2.5em;
+    };
+  };
 }
 
 </style>
