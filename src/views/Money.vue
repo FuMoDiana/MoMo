@@ -1,9 +1,9 @@
 <template>
   <Layout class-prefix="layout">
-    <NumberPad @update:value="onUpdateAmount" @submit="saveRecordList"/>
+    <NumberPad @update:value="onUpdateAmount" @submit="saverecordList"/>
     <Notes @update:value="onUpdateNotes"/>
     <Tags :data-source.sync="tags" @update:value="onUpdateTags"/>
-    <Types :value.sync="record.type"/>
+    <Types :value.sync=" RecordItem.type"/>
   </Layout>
 </template>
 
@@ -14,45 +14,40 @@
   import Types from '@/components/money/types.vue';
   import Notes from '@/components/money/notes.vue';
   import Tags from '@/components/money/tags.vue';
-
-  type Record = {
-    tags:string[]
-    notes:string
-    type:string
-    amount:number
-    createdAt?:Date
-  }
+  import model from '@/model';
+  
+  const recordList = model.fetch();
 
   @Component({
     components: {Tags, Notes, Types, NumberPad}
   })
   export default class Money extends Vue{
-    record:Record={tags:[],notes:'',type:'-',amount:0};
+     RecordItem: RecordItem={tags:[],notes:'',type:'-',amount:0};
     tags=['衣','食','住','行'];
-    recordList:Record[]=JSON.parse(window.localStorage.getItem('recordList')||'[]');
+     recordList: RecordItem[]=JSON.parse(window.localStorage.getItem(' recordList')||'[]');
     onUpdateTags(value:string[]){
-      this.record.tags = value;
+      this. RecordItem.tags = value;
     }
     onUpdateType(value:string){
-      this.record.type = value;
+      this. RecordItem.type = value;
       
     }
     onUpdateAmount(value:string){
-      this.record.amount = parseFloat(value);
+      this. RecordItem.amount = parseFloat(value);
       
     }
     onUpdateNotes(value:string){
-      this.record.notes = value;
+      this. RecordItem.notes = value;
       
     }
-    saveRecordList(){
-      const record2:Record = JSON.parse(JSON.stringify(this.record));
-      record2.createdAt = new Date();
-      this.recordList.push(record2);
+    saverecordList(){
+      const RecordItem2: RecordItem = model.clone(this.RecordItem);
+      RecordItem2.createdAt = new Date();
+      this. recordList.push( RecordItem2);
     }
     @Watch('recordList')
-    onRecordListChanged(){
-      window.localStorage.setItem('recordList',JSON.stringify(this.recordList));
+    onrecordListChanged(){
+      model.save(this. recordList);
     }
   }
 </script>

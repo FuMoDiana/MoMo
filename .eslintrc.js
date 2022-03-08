@@ -17,7 +17,8 @@ module.exports = {
         '@typescript-eslint/no-var-requires': 'off'
     },
     "globals": {
-        "__WebpackModuleApi": true
+        "__WebpackModuleApi": true,
+        "RecordItem": true
     },
     overrides: [{
         files: [
