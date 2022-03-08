@@ -3,7 +3,7 @@
     <NumberPad @update:value="onUpdateAmount" @submit="saverecordList"/>
     <Notes @update:value="onUpdateNotes"/>
     <Tags :data-source.sync="tags" @update:value="onUpdateTags"/>
-    <Types :value.sync=" RecordItem.type"/>
+    <Types :value.sync=" record.type"/>
   </Layout>
 </template>
 
@@ -14,42 +14,48 @@
   import Types from '@/components/money/types.vue';
   import Notes from '@/components/money/notes.vue';
   import Tags from '@/components/money/tags.vue';
-  import model from '@/model';
+  import recordListModel from '@/models/recordListModel.ts';
+  import tagListModel from '@/models/tagListModel.ts';
   
-  const recordList = model.fetch();
+  const recordList = recordListModel.fetch();
+  const tagList = tagListModel.fetch();
 
   @Component({
     components: {Tags, Notes, Types, NumberPad}
   })
   export default class Money extends Vue{
-     RecordItem: RecordItem={tags:[],notes:'',type:'-',amount:0};
-    tags=['衣','食','住','行'];
-     recordList: RecordItem[]=JSON.parse(window.localStorage.getItem(' recordList')||'[]');
+    record: RecordItem={
+      tags:[],notes:'',type:'-',amount:0
+      };
+    tags=tagList;
+    recordList: RecordItem[]=recordList;
+
     onUpdateTags(value:string[]){
-      this. RecordItem.tags = value;
+      this. record.tags = value;
     }
     onUpdateType(value:string){
-      this. RecordItem.type = value;
+      this. record.type = value;
       
     }
     onUpdateAmount(value:string){
-      this. RecordItem.amount = parseFloat(value);
+      this. record.amount = parseFloat(value);
       
     }
     onUpdateNotes(value:string){
-      this. RecordItem.notes = value;
+      this. record.notes = value;
       
     }
     saverecordList(){
-      const RecordItem2: RecordItem = model.clone(this.RecordItem);
+      const RecordItem2: RecordItem = recordListModel.clone(this.record);
       RecordItem2.createdAt = new Date();
       this. recordList.push( RecordItem2);
     }
     @Watch('recordList')
     onrecordListChanged(){
-      model.save(this. recordList);
+      recordListModel.save(this. recordList);
     }
   }
+  
 </script>
 
 <style lang="scss">
