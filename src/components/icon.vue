@@ -1,6 +1,6 @@
 <template>
 <!-- v-bind实现双向绑定，可略写为:，与prop中的name相互相应 -->
-    <svg class='icon'>
+    <svg class='icon'  @click="$emit('click', $event)">
       <use :xlink:href="'#'+name"/>
     </svg>
 </template>
