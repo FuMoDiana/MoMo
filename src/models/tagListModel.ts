@@ -1,18 +1,6 @@
 import creatId from '@/lib/createid.ts';
 const localStorageKeyName = 'tagList';
-type Tag = {
-    id:string;
-    name:string;
-}
 
-type TagListModel = {
-    data: Tag[]//箭头前是输入的类型，箭头后是输出的类型
-    fetch: () => Tag[]
-    create: (name: string) => 'success' | 'duplicated'// 联合类型
-    update:(id:string,name:string) => 'success' | 'duplicated' | 'not found';
-    remove: (id: string) => boolean;
-    save: () => void
-  }
 
 const tagListModel:TagListModel = {
     data:[],
