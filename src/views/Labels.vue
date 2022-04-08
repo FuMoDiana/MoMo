@@ -10,7 +10,7 @@
       </router-link>
     </div>
     <div class="createTag-wrapper">
-      <Button class="createTag" @click="create">新建标签</Button>
+      <Button class="createTag" @click="createTag">新建标签</Button>
     </div>
         </Layout>
     </div>
@@ -27,7 +27,7 @@
   export default class Labels extends Vue {
     tags = window.tagList;
 
-    create() {
+    createTag() {
       const name = window.prompt('请输出标签名');
       if (name) {
         window.createTag(name);
