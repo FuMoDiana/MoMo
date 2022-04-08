@@ -19,7 +19,6 @@
   import FormItem from '@/components/money/FormItem.vue';
   import Tags from '@/components/money/tags.vue';
   import recordListModel from '@/models/recordListModel.ts';
-  import tagListModel from '@/models/tagListModel.ts';
   import clone from '@/lib/clone';
   
   const recordList = recordListModel.fetch();

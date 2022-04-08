@@ -16,7 +16,6 @@
 <script lang="ts">
 import Vue from 'vue';
 import {Component,Prop} from 'vue-property-decorator';
-import tagListModel from '@/models/tagListModel.ts';
   @Component
   export default class Tags extends Vue{
     @Prop(Array) readonly dataSource:string[] | undefined;
@@ -34,11 +33,8 @@ import tagListModel from '@/models/tagListModel.ts';
 
     create() {
       const name = window.prompt('请输入标签名');
-      if (name === '') {
-        window.alert('标签名不能为空');
-      } else if (this.dataSource) {
-        this.$emit('update:dataSource',
-          [...this.dataSource, name]);
+      if (name) {
+        window.createTag(name);
       }
     }
     
