@@ -19,14 +19,15 @@
   import FormItem from '@/components/money/FormItem.vue';
   import Tags from '@/components/money/tags.vue';
   import clone from '@/lib/clone';
-  
+  import Oldstore from '../store/index2';
+  import store from '@/store/index';
 
   @Component({
-    components: {Tags, FormItem, Types, NumberPad}
+    components: {Tags, FormItem, Types, NumberPad},
   })
   export default class Money extends Vue{
-    tags=window.tagList;
-    recordList: RecordItem[]=window.recordList;
+    tags=Oldstore.tagList;
+    recordList: RecordItem[]=Oldstore.recordList;
     record: RecordItem={
       tags:[],notes:'',type:'-',amount:0
       };
@@ -41,7 +42,7 @@
       
     }
     saverecord(){
-      window.creatRecord(this.record);
+      Oldstore.createRecord(this.record);
     }
   }
   
