@@ -19,20 +19,23 @@
   import FormItem from '@/components/money/FormItem.vue';
   import Tags from '@/components/money/tags.vue';
   import clone from '@/lib/clone';
-  import Oldstore from '../store/index2';
   import store from '@/store/index';
 
   @Component({
     components: {Tags, FormItem, Types, NumberPad},
   })
   export default class Money extends Vue{
-    tags=Oldstore.tagList;
-    recordList: RecordItem[]=Oldstore.recordList;
+    
+    get recordList(){
+        return this.$store.state.recordList;
+      }
     record: RecordItem={
       tags:[],notes:'',type:'-',amount:0
       };
-    
-
+    //刷新（更新）数据
+   created() {
+     this.$store.commit('fetchRecords');
+   }
     onUpdateTags(value:string[]){
       this.record.tags = value;
     }
@@ -42,7 +45,7 @@
       
     }
     saverecord(){
-      Oldstore.createRecord(this.record);
+      this.$store.commit('createRecord',this.record);
     }
   }
   

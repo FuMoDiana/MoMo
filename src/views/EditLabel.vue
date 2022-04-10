@@ -22,17 +22,22 @@ import Vue from 'vue';
 import {Component} from 'vue-property-decorator';
 import FormItem from '@/components/money/FormItem.vue';
 import Button from '@/components/Button.vue';
-import store from '../store/index2';
+import store from '../store/index';
 
 @Component({
-    components: {FormItem,Button}
+    components: {FormItem,Button},
   })
 export default class EditLabel extends Vue {
-  tag?: {id:string,name:string} = undefined;
+    get tag(){
+       return this.$store.state.currentTag;
+     }
 
     created() {
-      this.tag = store.findTag(this.$route.params.id);
-      console.log(this.tag);                      
+      const id = this.$route.params.id;
+      //防止刷新页面直接跳转到404
+      //刷新页面后会导致其他组件还没运行就转到当前页了，数据为空
+      this.$store.commit('fetchTags');
+      this.$store.commit('setCurrentTag',id);
       if(!this.tag){
         this.$router.replace('/404');
       }
@@ -41,18 +46,16 @@ export default class EditLabel extends Vue {
 
     update(name: string) {
       if (this.tag) {
-        store.updateTag(this.tag.id,name);
+        this.$store.commit('updateTag',{id:this.tag.id,name});
+      }
+     }
+
+    remove(){
+      if(this.tag){
+        this.$store.commit('removeTag',this.tag.id);
       }
     }
-    remove() {
-      if (this.tag) {
-        if(store.removeTag(this.tag.id)){
-          this.$router.back();//删除成功，返回上一页
-        }else{
-          window.alert('删除失败');
-        }
-      }
-    }
+
     goBack() {
       this.$router.back();
     }
