@@ -26,7 +26,8 @@
   
   @Component
   export default class NumberPad extends Vue{
-    output ='0';
+    @Prop(Number) readonly value!: number;
+    output =this.value.toString();
     inputContent(event:MouseEvent){
       const button = event.target as HTMLButtonElement;
       const input = button.textContent as string;//防止提示input为空的错误情况，as xx也可以用!代替
@@ -43,16 +44,17 @@
       this.output +=input;
     }
     remove(){
-      const len = this.output.length;
-      if(len===1){
+     
+      if(this.output.length===1){
         this.output = '0';
       }else{
-        this.output =this.output.substring(0,len-1);
+        this.output =this.output.substring(0,-1);
       }
     }
     ok(){
-      this.$emit('update:value',this.output);
-      this.$emit('submit',this.output);
+      const number = parseFloat(this.output);
+      this.$emit('update:value', number);
+      this.$emit('submit', number);
       this.output ='0';
     }
     clear(){

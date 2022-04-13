@@ -5,9 +5,10 @@
       <FormItem field-name = "备注"
      placeholder="输入一点备注吧~"
      @update:value="onUpdateNotes"/>
-    </div>
-    <Tags :data-source.sync="tags" @update:value="onUpdateTags"/>
-    <Types :value.sync=" record.type"/>
+    </div>  
+    <Tags/>
+    <Tabs :data-source="recordTypeList"
+          :value.sync="record.type"/>
   </Layout>
 </template>
 
@@ -15,17 +16,17 @@
   import Vue from 'vue';
   import {Component,Prop, Watch} from 'vue-property-decorator';
   import NumberPad from '@/components/money/numberPad.vue';
-  import Types from '@/components/money/types.vue';
+  import Tabs from '@/components/Tabs.vue';
   import FormItem from '@/components/money/FormItem.vue';
   import Tags from '@/components/money/tags.vue';
   import clone from '@/lib/clone';
-  import store from '@/store/index';
+  import recordTypeList from '@/constants/recordTypeList'
 
   @Component({
-    components: {Tags, FormItem, Types, NumberPad},
+    components: {Tags, FormItem, Tabs, NumberPad},
   })
   export default class Money extends Vue{
-    
+    recordTypeList = recordTypeList; 
     get recordList(){
         return this.$store.state.recordList;
       }
@@ -36,10 +37,6 @@
    created() {
      this.$store.commit('fetchRecords');
    }
-    onUpdateTags(value:string[]){
-      this.record.tags = value;
-    }
-  
     onUpdateNotes(value:string){
       this.record.notes = value;
       
@@ -51,7 +48,7 @@
   
 </script>
 
-<style lang="scss">
+<style lang="scss" >
   .layout-content {
     display: flex;
     flex-direction: column-reverse;

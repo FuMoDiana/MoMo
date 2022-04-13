@@ -17,21 +17,17 @@
 import Vue from 'vue';
 import {Component,Prop} from 'vue-property-decorator';
 import store from '../../store/index';
-  @Component({
-    computed:{
-      tagList(){
-        return this.$store.state.tagList;
-      }
-    }
-  })
+  @Component
   export default class Tags extends Vue{
-    @Prop(Array) readonly dataSource:string[] | undefined;
     selectedTags:string[] = [];
 
     created() {
       this.$store.commit('fetchTags');
     }
 
+    get tagList(){
+        return this.$store.state.tagList;
+      }
     toggle(tag:string){
       const index = this.selectedTags.indexOf(tag);
       if(index >= 0){
